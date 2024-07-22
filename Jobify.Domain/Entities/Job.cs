@@ -1,3 +1,4 @@
+using Jobify.Common.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,6 +9,8 @@ public sealed class Job : EntityBase
     [StringLength(200)]
     public required string Title { get; set; }
     
+    public required JobTypes Type { get; set; }
+    
     [StringLength(50)]
     public required string Geo { get; set; }
     
@@ -17,7 +20,7 @@ public sealed class Job : EntityBase
     [StringLength(500)]
     public required string Excerpt { get; set; }
     
-    [StringLength(4000)]
+    [Column(TypeName = "nvarchar(max)")]
     public required string Description { get; set; }
     
     [Column(TypeName = "datetime")]
@@ -31,7 +34,4 @@ public sealed class Job : EntityBase
     
     [StringLength(10)]
     public string? SalaryCurrency { get; set; }
-    
-    public int TypeId { get; set; }
-    public required JobType Type { get; set; }
 }

@@ -1,3 +1,7 @@
+using Jobify.Api.Clients;
+using Jobify.Api.Profiles;
+using Jobify.Api.Services;
+using Jobify.Common.Configs;
 using Jobify.Domain.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -14,6 +18,10 @@ public static class RegisterStartupServices
         builder.Services.AddControllers();
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddEndpointsApiExplorer();
+
+        builder.Services.AddAutoMapper(typeof(DomainToDtoProfile));
+        builder.Services.AddAutoMapper(typeof(DtoToDomainProfile));
+        builder.Services.AddAutoMapper(typeof(ModelToDtoProfile));
 
         builder.Services.AddSwaggerGen(_ =>
         {
@@ -40,6 +48,11 @@ public static class RegisterStartupServices
                 _.UseSqlServer(configuration.GetConnectionString("Jobify"),
                     sqlServerOptions => sqlServerOptions.CommandTimeout(120));
             }, ServiceLifetime.Scoped);
+
+        builder.Services.Configure<JobicyApiConfig>(configuration.GetSection("JobicyApiConfig"));
+
+        builder.Services.AddScoped<IJobicyApiClient, JobicyApiClient>();
+        builder.Services.AddScoped<IJobService, JobService>();
 
         return builder;
     }
