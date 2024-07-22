@@ -1,3 +1,4 @@
+using Jobify.Dto.Companies;
 using Newtonsoft.Json;
 
 namespace Jobify.Dto.Jobs;
@@ -36,4 +37,7 @@ public class JobDto : IDataTransferObject
 
     [JsonProperty(Required = Required.Default)]
     public Common.Enums.JobTypes Type { get; set; }
+
+    [JsonProperty(Required = Required.Default)]
+    public CompanyDto? Company { get; set; }
 }

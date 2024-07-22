@@ -1,5 +1,6 @@
 using AutoMapper;
 using Jobify.Api.Models.Jobicy;
+using Jobify.Dto.Companies;
 using Jobify.Dto.Jobs;
 
 namespace Jobify.Api.Profiles;
@@ -19,5 +20,9 @@ public class ModelToDtoProfile : Profile
             .ForMember(d => d.AnnualSalaryMin, opt => opt.MapFrom(s => s.AnnualSalaryMin))
             .ForMember(d => d.AnnualSalaryMax, opt => opt.MapFrom(s => s.AnnualSalaryMax))
             .ForMember(d => d.SalaryCurrency, opt => opt.MapFrom(s => s.SalaryCurrency));
+
+        CreateMap<CompanyModel, CompanyDto>()
+            .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Name))
+            .ForMember(d => d.Logo, opt => opt.MapFrom(s => s.Logo));
     }
 }

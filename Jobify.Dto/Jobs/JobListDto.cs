@@ -9,6 +9,12 @@ public class JobListDto
 
     [JsonProperty(Required = Required.Always)]
     public required string Title { get; set; }
+    
+    [JsonProperty(Required = Required.Always)]
+    public required string Type { get; set; }
+    
+    [JsonProperty(Required = Required.Always)]
+    public required string CompanyName { get; set; }
 
     [JsonProperty(Required = Required.Always)]
     public required string Geo { get; set; }
@@ -27,7 +33,4 @@ public class JobListDto
 
     [JsonProperty(Required = Required.Default)]
     public decimal? AnnualSalaryMax { get; set; }
-
-    [JsonProperty(Required = Required.Default)]
-    public Common.Enums.JobTypes Type { get; set; }
 }

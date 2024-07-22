@@ -34,4 +34,7 @@ public sealed class Job : EntityBase
     
     [StringLength(10)]
     public string? SalaryCurrency { get; set; }
+    
+    public int CompanyId { get; set; }
+    public required Company Company { get; set; }
 }

@@ -7,4 +7,5 @@ public class JobifyContext(
     DbContextOptions<JobifyContext> options) : DbContext(options)
 {
     public DbSet<Job> Jobs { get; set; }
+    public DbSet<Company> Companies { get; set; }
 }
