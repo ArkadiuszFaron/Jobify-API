@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobify.Domain", "Jobify.Dom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobify.Api", "Jobify.Api\Jobify.Api.csproj", "{7F30437B-BE33-4E84-9D1E-5E131B7BA6B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobify.Dto", "Jobify.Dto\Jobify.Dto.csproj", "{AC02C569-0DAC-4284-8F37-E3686808B5DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{7F30437B-BE33-4E84-9D1E-5E131B7BA6B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F30437B-BE33-4E84-9D1E-5E131B7BA6B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F30437B-BE33-4E84-9D1E-5E131B7BA6B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC02C569-0DAC-4284-8F37-E3686808B5DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC02C569-0DAC-4284-8F37-E3686808B5DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC02C569-0DAC-4284-8F37-E3686808B5DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC02C569-0DAC-4284-8F37-E3686808B5DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
