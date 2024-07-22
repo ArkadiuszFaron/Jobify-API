@@ -1,0 +1,9 @@
+.vs
+bin
+obj
+.vscode/**
+*.user
+dist
+**/unit_tests.trx
+.idea/**
+**/.DS_Store
