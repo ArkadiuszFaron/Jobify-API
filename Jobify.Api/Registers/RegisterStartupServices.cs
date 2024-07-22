@@ -3,6 +3,7 @@ using Jobify.Api.Profiles;
 using Jobify.Api.Services;
 using Jobify.Common.Configs;
 using Jobify.Domain.Contexts;
+using Jobify.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -34,6 +35,9 @@ public static class RegisterStartupServices
             _.DocInclusionPredicate((d, api) => !string.IsNullOrWhiteSpace(api.GroupName));
             _.TagActionsBy(api => new List<string?> { api.GroupName });
         });
+        
+        builder.Services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
+        builder.Services.Configure<JobicyApiConfig>(configuration.GetSection("JobicyApiConfig"));
 
         builder.Services.AddDbContext<JobifyContext>(
             _ =>
@@ -48,10 +52,13 @@ public static class RegisterStartupServices
                 _.UseSqlServer(configuration.GetConnectionString("Jobify"),
                     sqlServerOptions => sqlServerOptions.CommandTimeout(120));
             }, ServiceLifetime.Scoped);
-
-        builder.Services.Configure<JobicyApiConfig>(configuration.GetSection("JobicyApiConfig"));
+        
+        builder.Services.AddSingleton<IDapperRepository>(_ =>
+            new DapperRepository(configuration.GetConnectionString("Jobify")));
 
         builder.Services.AddScoped<IJobicyApiClient, JobicyApiClient>();
+        
+        builder.Services.AddScoped<ICompanyService, CompanyService>();
         builder.Services.AddScoped<IJobService, JobService>();
 
         return builder;

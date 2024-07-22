@@ -1,5 +1,6 @@
 using AutoMapper;
 using Jobify.Domain.Entities;
+using Jobify.Dto.Companies;
 using Jobify.Dto.Jobs;
 
 namespace Jobify.Api.Profiles;
@@ -8,6 +9,10 @@ public class DtoToDomainProfile : Profile
 {
     public DtoToDomainProfile()
     {
+        CreateMap<CompanyDto, Company>()
+            .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Name))
+            .ForMember(d => d.Logo, opt => opt.MapFrom(s => s.Logo));
+        
         CreateMap<JobDto, Job>()
             .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title))
             .ForMember(d => d.Type, opt => opt.MapFrom(s => s.Type))
@@ -18,6 +23,7 @@ public class DtoToDomainProfile : Profile
             .ForMember(d => d.PubDate, opt => opt.MapFrom(s => s.PubDate))
             .ForMember(d => d.AnnualSalaryMin, opt => opt.MapFrom(s => s.AnnualSalaryMin))
             .ForMember(d => d.AnnualSalaryMax, opt => opt.MapFrom(s => s.AnnualSalaryMax))
-            .ForMember(d => d.SalaryCurrency, opt => opt.MapFrom(s => s.SalaryCurrency));
+            .ForMember(d => d.SalaryCurrency, opt => opt.MapFrom(s => s.SalaryCurrency))
+            .ForMember(d => d.Company, opt => opt.MapFrom(s => s.Company));
     }
 }
