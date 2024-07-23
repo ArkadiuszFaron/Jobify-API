@@ -12,10 +12,14 @@ public class JobicyApiClient(
         var client = new RestClient($"{jobicyApiConfig.CurrentValue.Url}");
 
         var request = new RestRequest()
-            .AddQueryParameter("count", jobicyApiConfig.CurrentValue.Count)
-            .AddQueryParameter("geo", jobicyApiConfig.CurrentValue.Geo)
-            .AddQueryParameter("industry", jobicyApiConfig.CurrentValue.Industry)
+            .AddQueryParameter("count", jobicyApiConfig.CurrentValue.Count ?? 10)
             .AddHeader("Content-Type", "application/json");
+
+        if (!string.IsNullOrEmpty(jobicyApiConfig.CurrentValue.Geo))
+            request.AddQueryParameter("geo", jobicyApiConfig.CurrentValue.Geo);
+        
+        if (!string.IsNullOrEmpty(jobicyApiConfig.CurrentValue.Industry))
+            request.AddQueryParameter("industry", jobicyApiConfig.CurrentValue.Industry);
 
         return await client.ExecuteAsync(request);
     }

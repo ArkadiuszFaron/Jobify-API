@@ -59,6 +59,7 @@ public static class RegisterStartupServices
         builder.Services.AddScoped<IJobicyApiClient, JobicyApiClient>();
         
         builder.Services.AddScoped<ICompanyService, CompanyService>();
+        builder.Services.AddScoped<IIndustryService, IndustryService>();
         builder.Services.AddScoped<IJobService, JobService>();
 
         return builder;

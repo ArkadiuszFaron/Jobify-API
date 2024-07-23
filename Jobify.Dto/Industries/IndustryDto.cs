@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 
-namespace Jobify.Dto.Companies;
+namespace Jobify.Dto.Industries;
 
-public class CompanyDto : IDataTransferObject
+public class IndustryDto : IDataTransferObject
 {
     [JsonProperty(Required = Required.Default)]
     public int Id { get; set; }
@@ -11,5 +11,5 @@ public class CompanyDto : IDataTransferObject
     public required string Name { get; set; }
     
     [JsonProperty(Required = Required.Always)]
-    public required string Logo { get; set; }
+    public required string Code { get; set; }
 }

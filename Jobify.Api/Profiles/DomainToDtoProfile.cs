@@ -2,6 +2,7 @@ using AutoMapper;
 using Jobify.Common.Extensions;
 using Jobify.Domain.Entities;
 using Jobify.Dto.Companies;
+using Jobify.Dto.Industries;
 using Jobify.Dto.Jobs;
 
 namespace Jobify.Api.Profiles;
@@ -14,9 +15,14 @@ public class DomainToDtoProfile : Profile
             .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Name))
             .ForMember(d => d.Logo, opt => opt.MapFrom(s => s.Logo));
         
+        CreateMap<Industry, IndustryDto>()
+            .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Name))
+            .ForMember(d => d.Code, opt => opt.MapFrom(s => s.Code));
+        
         CreateMap<Job, JobListDto>()
             .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title))
             .ForMember(d => d.Type, opt => opt.MapFrom(s => s.Type.GetEnumDescription()))
+            .ForMember(d => d.Industry, opt => opt.MapFrom(s => s.Industry.Name))
             .ForMember(d => d.CompanyName, opt => opt.MapFrom(s => s.Company.Name))
             .ForMember(d => d.Geo, opt => opt.MapFrom(s => s.Geo))
             .ForMember(d => d.Level, opt => opt.MapFrom(s => s.Level))
@@ -28,6 +34,7 @@ public class DomainToDtoProfile : Profile
         CreateMap<Job, JobDto>()
             .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Title))
             .ForMember(d => d.Type, opt => opt.MapFrom(s => s.Type))
+            .ForMember(d => d.Industry, opt => opt.MapFrom(s => s.Industry))
             .ForMember(d => d.Company, opt => opt.MapFrom(s => s.Company))
             .ForMember(d => d.Geo, opt => opt.MapFrom(s => s.Geo))
             .ForMember(d => d.Level, opt => opt.MapFrom(s => s.Level))

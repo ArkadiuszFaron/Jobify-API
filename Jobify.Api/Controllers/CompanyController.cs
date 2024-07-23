@@ -28,4 +28,42 @@ public class CompanyController(
         var result = await companyService.GetCompany(id);
         return StatusCode(result.StatusCode, result.Result);
     }
+    
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Produces("application/json")]
+    public async Task<ActionResult> UpdateCompany(int id, [FromBody] UpdateCompanyDto? dto)
+    {
+        if (id < 1 || dto == null)
+        {
+            return BadRequest();
+        }
+
+        var result = await companyService.UpdateCompany(id, dto);
+
+        return result.StatusCode != StatusCodes.Status200OK
+            ? StatusCode(result.StatusCode, result.Message)
+            : Ok();
+    }
+    
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Produces("application/json")]
+    public async Task<ActionResult<CompanyDto>> DeleteCompany(int id)
+    {
+        if (id < 1)
+        {
+            return BadRequest();
+        }
+        
+        var result = await companyService.DeleteCompany(id);
+
+        return result.StatusCode != StatusCodes.Status200OK
+            ? StatusCode(result.StatusCode, result.Message)
+            : Ok();
+    }
 }
