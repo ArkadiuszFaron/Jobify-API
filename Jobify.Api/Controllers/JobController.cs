@@ -37,4 +37,23 @@ public class JobController(
         var result = await jobService.GetJobOffer(id);
         return StatusCode(result.StatusCode, result.Result);
     }
+    
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Produces("application/json")]
+    public async Task<ActionResult<JobDto>> DeleteCompany(int id)
+    {
+        if (id < 1)
+        {
+            return BadRequest();
+        }
+        
+        var result = await jobService.DeleteJobOffer(id);
+
+        return result.StatusCode != StatusCodes.Status200OK
+            ? StatusCode(result.StatusCode, result.Message)
+            : Ok();
+    }
 }

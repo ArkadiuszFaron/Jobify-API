@@ -13,6 +13,7 @@ namespace Jobify.Api.Services;
 internal sealed class JobService(
     IDbContextFactory<JobifyContext> contextFactory,
     IJobicyApiClient jobicyApiClient,
+    IIndustryService industryService,
     ILogger<JobService> logger,
     IMapper mapper) : IJobService
 {
@@ -22,6 +23,7 @@ internal sealed class JobService(
 
         var jobs = context.Jobs
             .Include(_ => _.Company)
+            .Include(_ => _.Industry)
             .AsNoTracking()
             .OrderByDescending(_ => _.PubDate)
             .Take(count)
@@ -54,6 +56,7 @@ internal sealed class JobService(
 
         var job = context.Jobs
             .Include(_ => _.Company)
+            .Include(_ => _.Industry)
             .AsEnumerable()
             .Select(mapper.Map<JobDto>)
             .FirstOrDefault(_ => _.Id == id);
@@ -61,6 +64,32 @@ internal sealed class JobService(
         return new ResultStatus<JobDto>(job is null? StatusCodes.Status404NotFound : StatusCodes.Status200OK, job);
     }
 
+    public async Task<ResultStatus> DeleteJobOffer(int id)
+    {
+        try
+        {
+            var context = await contextFactory.CreateDbContextAsync();
+            
+            var job = context.Jobs
+                .FirstOrDefault(_ => _.Id == id);
+
+            if (job is null)
+            {
+                return new ResultStatus(StatusCodes.Status404NotFound);
+            }
+
+            context.Jobs.Remove(job);
+            await context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, $"Cannot delete job offer with id: {id}. Message: {ex.Message}.");
+            return new ResultStatus(StatusCodes.Status500InternalServerError, "Cannot delete job offer.");
+        }
+
+        return new ResultStatus(StatusCodes.Status200OK);
+    }
+    
     #region Private methods
     private async Task FillNewJobOffers(List<JobDto> jobs)
     {
@@ -70,7 +99,13 @@ internal sealed class JobService(
 
             foreach (var job in jobs)
             {
-                context.Jobs.Add(mapper.Map<Job>(job));
+                var industryDto = (await industryService.GetIndustry(job.Industry?.Name)).Result;
+                var industryEntity = await context.Industries.FindAsync(industryDto?.Id);
+                
+                var jobEntity = mapper.Map<Job>(job);
+                jobEntity.Industry = industryEntity;
+
+                context.Jobs.Add(jobEntity);
                 await context.SaveChangesAsync();
             }
             
@@ -89,4 +124,5 @@ public interface IJobService
     Task<ResultStatus<List<JobListDto>>> GetActualJobOffers(int count);
     Task<ResultStatus<List<JobDto>>> GetNewJobOffers();
     Task<ResultStatus<JobDto>> GetJobOffer(int id);
+    Task<ResultStatus> DeleteJobOffer(int id);
 }

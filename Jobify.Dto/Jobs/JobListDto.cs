@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Jobify.Dto.Jobs;
 
-public class JobListDto
+public class JobListDto : IDataTransferObject
 {
     [JsonProperty(Required = Required.Default)]
     public int Id { get; set; }
@@ -12,6 +12,9 @@ public class JobListDto
     
     [JsonProperty(Required = Required.Always)]
     public required string Type { get; set; }
+    
+    [JsonProperty(Required = Required.Always)]
+    public required string Industry { get; set; }
     
     [JsonProperty(Required = Required.Always)]
     public required string CompanyName { get; set; }

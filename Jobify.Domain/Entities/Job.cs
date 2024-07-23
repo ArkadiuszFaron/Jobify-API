@@ -37,4 +37,7 @@ public sealed class Job : EntityBase
     
     public int CompanyId { get; set; }
     public required Company Company { get; set; }
+    
+    public int IndustryId { get; set; }
+    public required Industry? Industry { get; set; }
 }
